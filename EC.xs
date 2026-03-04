@@ -1,3 +1,13 @@
+/* Silence compound-token-split-by-macro warnings from perl.h when
+ * building for Perl < 5.35.2 with Clang >= 12
+ * See https://github.com/radiator-software/p5-net-ssleay/issues/383
+ */
+#if NET_SSLEAY_PERL_VERSION < 5035002 && defined(__clang__) && defined(__clang_major__) && __clang_major__ >= 12
+#pragma clang diagnostic ignored "-Wunknown-warning-option"
+#pragma clang diagnostic ignored "-Wcompound-token-split-by-macro"
+#pragma clang diagnostic warning "-Wunknown-warning-option"
+#endif
+
 #include "EXTERN.h"
 #include "perl.h"
 #include "XSUB.h"
