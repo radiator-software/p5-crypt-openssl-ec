@@ -1,4 +1,7 @@
 use 5.008005;
+use strict;
+use warnings;
+
 use ExtUtils::MakeMaker;
 use Config;
 
@@ -33,9 +36,10 @@ WriteMakefile(
     VERSION_FROM      => 'lib/Crypt/OpenSSL/EC.pm',
     PREREQ_PM         => { 'Crypt::OpenSSL::Bignum' => 0.04,
                           }, 
-    ($] >= 5.005 ?     ## Add these new keywords supported since 5.005
-      (ABSTRACT_FROM  => 'lib/Crypt/OpenSSL/EC.pm', # retrieve abstract from module
-       AUTHOR         => 'Mike McCauley <mikem@airspayce.com>') : ()),
+    ABSTRACT_FROM     => 'lib/Crypt/OpenSSL/EC.pm', # retrieve abstract from module
+    AUTHOR            => [ 'Mike McCauley <mikem@airspayce.com>',
+                           'Heikki Vatiainen <hvn@radiatorsoftware.com>',
+    ],
     LIBS              => [ $lib ],
     DEFINE            => '-DPERL5 -DOPENSSL_NO_KRB5 -DOPENSSL_API_COMPAT=908',
     INC               => $inc,
