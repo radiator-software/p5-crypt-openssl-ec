@@ -37,7 +37,7 @@ WriteMakefile(
       (ABSTRACT_FROM  => 'lib/Crypt/OpenSSL/EC.pm', # retrieve abstract from module
        AUTHOR         => 'Mike McCauley <mikem@airspayce.com>') : ()),
     LIBS              => [ $lib ],
-    DEFINE            => '-DPERL5 -DOPENSSL_NO_KRB5',
+    DEFINE            => '-DPERL5 -DOPENSSL_NO_KRB5 -DOPENSSL_API_COMPAT=908',
     INC               => $inc,
 );
 if  (eval {require ExtUtils::Constant; 1}) {
