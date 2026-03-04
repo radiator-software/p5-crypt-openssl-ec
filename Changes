@@ -1,5 +1,19 @@
 Revision history for Perl extension Crypt::OpenSSL::EC.
 
+1.33_01 2026-03-04
+	- Apply a patch for CPAN RT#164982 issue where compilation
+	  fails when upgrading ExtUtils::ParseXS from 3.51 to
+	  3.57. Analysis and patch by Petr Písař.
+	- Suppress -Wcompound-token-split-by-macro warnings when
+	  compiling with Clang. This is done by upgrading ppport.h and
+	  using a Clang specific pragma. See
+	  https://github.com/radiator-software/p5-net-ssleay/issues/383
+	  for more details.
+	- Suppress OpenSSL deprecation warnings. A number of OpenSSL
+	  API functions exposed by EC.xs are deprecated in recent
+	  OpenSSL versions.
+	- Start updating Makefile.PL
+
 1.32	 2020-03-18
 	Fixed some spelling errors reported by lintian via Xavier Guimard.
 	Patch from Heikki Vatiainen:
