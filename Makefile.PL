@@ -29,6 +29,15 @@ elsif ($^O eq 'MSWin32') {
 $lib =~ s/[\r\n]+/ /g;
 $inc =~ s/[\r\n]+/ /g;
 
+# With, for example homebrew, its library directory may be in the
+# default library path. If a non-default library path is set, ensure
+# it's placed before any other library paths.
+my %args;
+if ($lib)
+{
+    ($args{uc $_} = $Config{$_}) =~ s/(^|\s)-L/$1$lib -L/ for qw(lddlflags ldflags);
+}
+
 # See lib/ExtUtils/MakeMaker.pm for details of how to influence
 # the contents of the Makefile that is written.
 WriteMakefile(
@@ -43,6 +52,7 @@ WriteMakefile(
     LIBS              => [ $lib ],
     DEFINE            => '-DPERL5 -DOPENSSL_NO_KRB5 -DOPENSSL_API_COMPAT=908',
     INC               => $inc,
+    %args,
 );
 if  (eval {require ExtUtils::Constant; 1}) {
   # If you edit these definitions to change the constants used by this module,
