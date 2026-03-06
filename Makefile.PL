@@ -29,13 +29,39 @@ elsif ($^O eq 'MSWin32') {
 $lib =~ s/[\r\n]+/ /g;
 $inc =~ s/[\r\n]+/ /g;
 
-# With, for example homebrew, its library directory may be in the
-# default library path. If a non-default library path is set, ensure
-# it's placed before any other library paths.
-my %args;
-if ($lib)
-{
-    ($args{uc $_} = $Config{$_}) =~ s/(^|\s)-L/$1$lib -L/ for qw(lddlflags ldflags);
+# Setting up library directory ordering is complicated.
+#
+# Homebrew, for example, on Intel MacOS places OpenSSL libcrypto into
+# /usr/local/lib. This directory is also one of default library
+# paths. If a non-default library path is set with, for example,
+# OPENSSL_PREFIX, ensure this path is placed before any other library
+# paths. Otherwise /usr/local/lib is picked up before the one set with
+# OPENSSL_PREFIX.
+
+# Use LIBS by default for setting library path and library. Seems to
+# append the LIBS value to the default values.
+my %args = (
+    LIBS => [ $lib ],
+);
+
+# If our lib contains -L flags, check if perl Config module's linking
+# related variables also contain -L flags. If they do, ensure our lib
+# comes first. WriteMakefile accepts them with uppercase names.  If we
+# pass even one of the Config variables with a modified value, we
+# don't pass LIBS to avoid warnings like this:
+#
+# ld: warning: ignoring duplicate libraries: '-lcrypto'
+#
+# In this case '-lcrypto' was passed with LIBS and with at least one
+# of the Config variables.
+if ($lib =~ m/(^|\s)-L/) {
+  foreach my $ld_flag (qw(lddlflags ldflags)) {
+    my $val = $Config{$ld_flag};
+    next unless $val =~ s/(^|\s)-L/$1$lib -L/;
+
+    $args{uc $ld_flag} = $val;
+    delete $args{LIBS};
+  }
 }
 
 # See lib/ExtUtils/MakeMaker.pm for details of how to influence
@@ -49,7 +75,6 @@ WriteMakefile(
     AUTHOR            => [ 'Mike McCauley <mikem@airspayce.com>',
                            'Heikki Vatiainen <hvn@radiatorsoftware.com>',
     ],
-    LIBS              => [ $lib ],
     DEFINE            => '-DPERL5 -DOPENSSL_NO_KRB5 -DOPENSSL_API_COMPAT=908',
     INC               => $inc,
     %args,
