@@ -75,6 +75,10 @@ WriteMakefile(
     AUTHOR            => [ 'Mike McCauley <mikem@airspayce.com>',
                            'Heikki Vatiainen <hvn@radiatorsoftware.com>',
     ],
+    # The following is noted by Crypt:OpenSSL::Bignum. Note that
+    # redhat9 is Red Hat Linux from 2003. It's not Red Hat Enterprise
+    # Linux from 2022. Remove these soon since it's already 2026.
+    # perl-5.8/gcc-3.2 needs -DPERL5, and redhat9 likes -DOPENSSL_NO_KRB5
     DEFINE            => '-DPERL5 -DOPENSSL_NO_KRB5 -DOPENSSL_API_COMPAT=908',
     INC               => $inc,
     %args,
