@@ -375,7 +375,7 @@ our @EXPORT = qw(
 	POINT_CONVERSION_UNCOMPRESSED
 );
 
-our $VERSION = '1.33_01';
+our $VERSION = '1.33_02';
 
 sub AUTOLOAD {
     # This AUTOLOAD is used to 'autoload' constants from the constant()
