@@ -36,3 +36,11 @@ Copyright (C) 2026 by Heikki Vatiainen
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself, either Perl version 5.14.2 or,
 at your option, any later version of Perl 5 you may have available.
+
+Terms of Perl version 5.14.2 are:
+
+a) the GNU General Public License as published by the Free
+   Software Foundation; either version 1, or (at your option) any
+   later version, or
+
+b) the "Artistic License"

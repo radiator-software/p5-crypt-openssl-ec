@@ -69,9 +69,13 @@ if ($lib =~ m/(^|\s)-L/) {
 WriteMakefile(
     NAME              => 'Crypt::OpenSSL::EC',
     VERSION_FROM      => 'lib/Crypt/OpenSSL/EC.pm',
+    MIN_PERL_VERSION  => '5.008005',
     PREREQ_PM         => { 'Crypt::OpenSSL::Bignum' => 0.04,
                           }, 
+    TEST_REQUIRES     => { 'Test::More' => 0,
+                         },
     ABSTRACT_FROM     => 'lib/Crypt/OpenSSL/EC.pm', # retrieve abstract from module
+    LICENSE           => 'perl_5',
     AUTHOR            => [ 'Mike McCauley <mikem@airspayce.com>',
                            'Heikki Vatiainen <hvn@radiatorsoftware.com>',
     ],
@@ -81,6 +85,27 @@ WriteMakefile(
     # perl-5.8/gcc-3.2 needs -DPERL5, and redhat9 likes -DOPENSSL_NO_KRB5
     DEFINE            => '-DPERL5 -DOPENSSL_NO_KRB5 -DOPENSSL_API_COMPAT=908',
     INC               => $inc,
+
+    META_MERGE => {
+      'meta-spec' => {
+        version => 2,
+        url => 'https://metacpan.org/pod/CPAN::Meta::Spec',
+      },
+      resources => {
+        bugtracker  => {
+          web => 'https://github.com/radiator-software/p5-crypt-openssl-ec/issues',
+        },
+        homepage => 'https://github.com/radiator-software/p5-crypt-openssl-ec',
+        repository => {
+          type => 'git',
+          url => 'git://github.com/radiator-software/p5-crypt-openssl-ec.git',
+          web => 'https://github.com/radiator-software/p5-crypt-openssl-ec',
+        },
+      },
+    },
+
+    dist => { TARFLAGS => '--owner=0 --group=0 -cvf' },
+
     %args,
 );
 if  (eval {require ExtUtils::Constant; 1}) {
