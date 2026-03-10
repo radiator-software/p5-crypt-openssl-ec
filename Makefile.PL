@@ -70,8 +70,8 @@ WriteMakefile(
     NAME              => 'Crypt::OpenSSL::EC',
     VERSION_FROM      => 'lib/Crypt/OpenSSL/EC.pm',
     MIN_PERL_VERSION  => '5.008005',
-    PREREQ_PM         => { 'Crypt::OpenSSL::Bignum' => 0.04,
-                          }, 
+    PREREQ_PM         => { 'Crypt::OpenSSL::Bignum' => '0.04',
+                         },
     TEST_REQUIRES     => { 'Test::More' => 0,
                          },
     ABSTRACT_FROM     => 'lib/Crypt/OpenSSL/EC.pm', # retrieve abstract from module
